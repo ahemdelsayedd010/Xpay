@@ -156,10 +156,10 @@ fun ActionItems(
 @Composable
 fun QuickActionPreview() {
     val sampleActions = listOf(
-        Action("Send Money", R.drawable.ic_eye, "Send money to recipient"),
-        Action("Airtime/Data", R.drawable.ic_eye, "Recharge your mobile"),
-        Action("Pay Bills", R.drawable.ic_eye, "Pay bills, electricity etc."),
-        Action("Cards", R.drawable.ic_eye, "You have 3 active cards")
+        Action("Send Money", R.drawable.ph_send_money, "Send money to recipient"),
+        Action("Airtime/Data", R.drawable.ph_airtime, "Recharge your mobile"),
+        Action("Pay Bills", R.drawable.ph_pay_bills, "Pay bills, electricity etc."),
+        Action("Cards", R.drawable.ph_cards, "You have 3 active cards")
     )
     QuickAction(actions = sampleActions)
 }
