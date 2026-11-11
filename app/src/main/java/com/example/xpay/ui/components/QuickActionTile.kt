@@ -32,6 +32,11 @@ import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.TextPrimary
 
 @Composable
+fun QuickAction(actions: List<Action>) {
+    QuickAction(actions = actions, modifier = Modifier, onActionClick = {})
+}
+
+@Composable
 fun QuickAction(
     actions: List<Action>,
     modifier: Modifier = Modifier,
@@ -66,7 +71,7 @@ fun QuickAction(
 
         // 2x2 Grid using 2 Rows with weight(1f) for equal 50% width
         if (actions.size >= 4) {
-            Column(modifier = Modifier.padding(horizontal = 10.dp)) {
+            Column {
                 // Row 1 (Send Money & Airtime/Data)
                 Row(modifier = Modifier.fillMaxWidth()) {
                     ActionItems(
