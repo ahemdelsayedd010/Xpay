@@ -78,7 +78,7 @@ fun TopBar(
                     .background(Color.White)
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ph_bell),
+                    painter = painterResource(R.drawable.ic_bell_simple),
                     contentDescription = "Notifications",
                     tint = Color.Black,
                     modifier = Modifier.size(24.dp)
@@ -112,8 +112,3 @@ fun RoundingImage(
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun TopBarPreview() {
-    TopBar()
-}

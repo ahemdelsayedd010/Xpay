@@ -21,6 +21,8 @@ import com.example.xpay.ui.components.AmountText
 import com.example.xpay.ui.components.AppCard
 import com.example.xpay.ui.components.QuickAction
 import com.example.xpay.ui.components.TopBar
+import com.example.xpay.ui.components.Transaction
+import com.example.xpay.ui.components.TransationItemTile
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
 
@@ -34,25 +36,25 @@ fun HomeScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .statusBarsPadding() // Automatically pushes all content below status bar/notch!
-                .padding(horizontal = 12.dp, vertical = 32.dp)
+                .statusBarsPadding()
+                .padding(horizontal = 12.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            // 1. Top Header Bar
+            // Top Header Bar
             TopBar()
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            // 2. Savings Account Balance Card
+            // Savings Account Balance Card
             AppCard(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     AmountText(amountCents = 1524500L)
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            // 3. Quick Actions Grid
+            // Quick Actions Grid
             val sampleActions = listOf(
                 Action("Send Money", R.drawable.ph_send_money, "Send money to recipient"),
                 Action("Airtime/Data", R.drawable.ph_airtime, "Recharge your mobile"),
@@ -60,6 +62,58 @@ fun HomeScreen() {
                 Action("Cards", R.drawable.ph_cards, "You have 3 active cards")
             )
             QuickAction(actions = sampleActions, modifier = Modifier, onActionClick = {})
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Transaction History List
+            val sampleTransactions = listOf(
+                Transaction(
+                    id = "1",
+                    iconId = R.drawable.ph_send_money,
+                    category = "Received",
+                    title = "From Luke Kamaru",
+                    amountCents = 50000L,
+                    date = "Today, 1:00 PM",
+                    isIncoming = true
+                ),
+                Transaction(
+                    id = "2",
+                    iconId = R.drawable.ph_pay_bills,
+                    category = "Debit",
+                    title = "To John Chris",
+                    amountCents = 5000L,
+                    date = "Today, 1:00 PM",
+                    isIncoming = false
+                ),
+                Transaction(
+                    id = "3",
+                    iconId = R.drawable.ph_cards,
+                    category = "Income",
+                    title = "X Payout",
+                    amountCents = 147500L,
+                    date = "Today, 1:00 PM",
+                    isIncoming = true
+                ),
+                Transaction(
+                    id = "3",
+                    iconId = R.drawable.ph_cards,
+                    category = "Income",
+                    title = "X Payout",
+                    amountCents = 147500L,
+                    date = "Today, 1:00 PM",
+                    isIncoming = true
+                ),
+                Transaction(
+                    id = "3",
+                    iconId = R.drawable.ph_cards,
+                    category = "Income",
+                    title = "X Payout",
+                    amountCents = 147500L,
+                    date = "Today, 1:00 PM",
+                    isIncoming = true
+                )
+            )
+            TransationItemTile(transactions = sampleTransactions)
 
             Spacer(modifier = Modifier.height(32.dp))
         }

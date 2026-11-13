@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -51,7 +52,7 @@ fun QuickAction(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 10.dp),
+                .padding(horizontal = 4.dp, vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -79,6 +80,7 @@ fun QuickAction(
                         modifier = Modifier.weight(1f),
                         onClick = { onActionClick(actions[0]) }
                     )
+                    Spacer(modifier = Modifier.width(2.dp))
                     ActionItems(
                         action = actions[1],
                         modifier = Modifier.weight(1f),
@@ -86,7 +88,7 @@ fun QuickAction(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
 
                 // Row 2 (Pay Bills & Cards)
                 Row(modifier = Modifier.fillMaxWidth()) {
@@ -95,6 +97,7 @@ fun QuickAction(
                         modifier = Modifier.weight(1f),
                         onClick = { onActionClick(actions[2]) }
                     )
+                    Spacer(modifier = Modifier.width(2.dp))
                     ActionItems(
                         action = actions[3],
                         modifier = Modifier.weight(1f),
