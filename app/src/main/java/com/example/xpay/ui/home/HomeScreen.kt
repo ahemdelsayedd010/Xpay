@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +25,8 @@ import com.example.xpay.ui.components.QuickAction
 import com.example.xpay.ui.components.TopBar
 import com.example.xpay.ui.components.Transaction
 import com.example.xpay.ui.components.TransationItemTile
+import com.example.xpay.ui.navigation.BottomMenu
+import com.example.xpay.ui.navigation.BottomMenuContent
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
 
@@ -93,30 +97,26 @@ fun HomeScreen() {
                     amountCents = 147500L,
                     date = "Today, 1:00 PM",
                     isIncoming = true
-                ),
-                Transaction(
-                    id = "3",
-                    iconId = R.drawable.ph_cards,
-                    category = "Income",
-                    title = "X Payout",
-                    amountCents = 147500L,
-                    date = "Today, 1:00 PM",
-                    isIncoming = true
-                ),
-                Transaction(
-                    id = "3",
-                    iconId = R.drawable.ph_cards,
-                    category = "Income",
-                    title = "X Payout",
-                    amountCents = 147500L,
-                    date = "Today, 1:00 PM",
-                    isIncoming = true
                 )
             )
             TransationItemTile(transactions = sampleTransactions)
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(100.dp))
         }
+
+        // Floating Bottom Navigation Bar with Filled Selected Icons
+        BottomMenu(
+            items = listOf(
+                BottomMenuContent("Home", R.drawable.ic_house_simple, R.drawable.ic_house_simple_fill),
+                BottomMenuContent("Cards", R.drawable.ic_cardholder, R.drawable.ic_cardholder_fill),
+                BottomMenuContent("Analytics", R.drawable.ic_chart_bar, R.drawable.ic_chart_bar_fill),
+                BottomMenuContent("Settings", R.drawable.ic_gear_six, R.drawable.ic_gear_six_fill),
+            ),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 16.dp)
+        )
     }
 }
 
