@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.xpay.R
+import com.example.xpay.ui.theme.CardSurfaceLight
 import com.example.xpay.ui.theme.DebitRed
 import com.example.xpay.ui.theme.DebitRedBg
 import com.example.xpay.ui.theme.IncomeGreen
@@ -90,7 +91,7 @@ fun TransactionItems(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
-            .background(Color.White)
+            .background(CardSurfaceLight)
             .clickable { onClick() }
     ) {
         Row(

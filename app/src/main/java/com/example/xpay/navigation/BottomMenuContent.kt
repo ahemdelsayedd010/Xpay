@@ -1,4 +1,4 @@
-package com.example.xpay.ui.navigation
+package com.example.xpay.navigation
 
 import androidx.annotation.DrawableRes
 

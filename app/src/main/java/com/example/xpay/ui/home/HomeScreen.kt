@@ -15,18 +15,18 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.xpay.R
+import com.example.xpay.navigation.BottomMenu
+import com.example.xpay.navigation.BottomMenuContent
 import com.example.xpay.ui.components.Action
-import com.example.xpay.ui.components.AmountText
-import com.example.xpay.ui.components.AppCard
 import com.example.xpay.ui.components.QuickAction
+import com.example.xpay.ui.components.SavingsAccountCard
 import com.example.xpay.ui.components.TopBar
 import com.example.xpay.ui.components.Transaction
 import com.example.xpay.ui.components.TransationItemTile
-import com.example.xpay.ui.navigation.BottomMenu
-import com.example.xpay.ui.navigation.BottomMenuContent
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
 
@@ -37,74 +37,77 @@ fun HomeScreen() {
             .fillMaxSize()
             .background(LightBg)
     ) {
+        // Main Screen Layout
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
-                .padding(horizontal = 12.dp)
-                .verticalScroll(rememberScrollState())
         ) {
-            // Top Header Bar
-            TopBar()
+            // Top Header Bar (Fixed)
+            TopBar(name = "Ahmed Elsayed", image = painterResource(R.drawable.igl))
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
-            // Savings Account Balance Card
-            AppCard(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    AmountText(amountCents = 1524500L)
-                }
-            }
+            // Scrollable Content
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 12.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                // Savings Account Balance Card
+                SavingsAccountCard()
 
-            Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-            // Quick Actions Grid
-            val sampleActions = listOf(
-                Action("Send Money", R.drawable.ph_send_money, "Send money to recipient"),
-                Action("Airtime/Data", R.drawable.ph_airtime, "Recharge your mobile"),
-                Action("Pay Bills", R.drawable.ph_pay_bills, "Pay bills, electricity etc."),
-                Action("Cards", R.drawable.ph_cards, "You have 3 active cards")
-            )
-            QuickAction(actions = sampleActions, modifier = Modifier, onActionClick = {})
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Transaction History List
-            val sampleTransactions = listOf(
-                Transaction(
-                    id = "1",
-                    iconId = R.drawable.ph_send_money,
-                    category = "Received",
-                    title = "From Luke Kamaru",
-                    amountCents = 50000L,
-                    date = "Today, 1:00 PM",
-                    isIncoming = true
-                ),
-                Transaction(
-                    id = "2",
-                    iconId = R.drawable.ph_pay_bills,
-                    category = "Debit",
-                    title = "To John Chris",
-                    amountCents = 5000L,
-                    date = "Today, 1:00 PM",
-                    isIncoming = false
-                ),
-                Transaction(
-                    id = "3",
-                    iconId = R.drawable.ph_cards,
-                    category = "Income",
-                    title = "X Payout",
-                    amountCents = 147500L,
-                    date = "Today, 1:00 PM",
-                    isIncoming = true
+                // Quick Actions Grid
+                val sampleActions = listOf(
+                    Action("Send Money", R.drawable.ph_send_money, "Send money to recipient"),
+                    Action("Airtime/Data", R.drawable.ph_airtime, "Recharge your mobile"),
+                    Action("Pay Bills", R.drawable.ph_pay_bills, "Pay bills, electricity etc."),
+                    Action("Cards", R.drawable.ph_cards, "You have 3 active cards")
                 )
-            )
-            TransationItemTile(transactions = sampleTransactions)
+                QuickAction(actions = sampleActions, modifier = Modifier, onActionClick = {})
 
-            Spacer(modifier = Modifier.height(100.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // Transaction History List
+                val sampleTransactions = listOf(
+                    Transaction(
+                        id = "1",
+                        iconId = R.drawable.ph_send_money,
+                        category = "Received",
+                        title = "From Luke Kamaru",
+                        amountCents = 50000L,
+                        date = "Today, 1:00 PM",
+                        isIncoming = true
+                    ),
+                    Transaction(
+                        id = "2",
+                        iconId = R.drawable.ph_pay_bills,
+                        category = "Debit",
+                        title = "To John Chris",
+                        amountCents = 5000L,
+                        date = "Today, 1:00 PM",
+                        isIncoming = false
+                    ),
+                    Transaction(
+                        id = "3",
+                        iconId = R.drawable.ph_cards,
+                        category = "Income",
+                        title = "X Payout",
+                        amountCents = 147500L,
+                        date = "Today, 1:00 PM",
+                        isIncoming = true
+                    )
+                )
+                TransationItemTile(transactions = sampleTransactions)
+
+                Spacer(modifier = Modifier.height(100.dp))
+            }
         }
 
-        // Floating Bottom Navigation Bar with Filled Selected Icons
+        // Floating Bottom Navigation Bar
         BottomMenu(
             items = listOf(
                 BottomMenuContent("Home", R.drawable.ic_house_simple, R.drawable.ic_house_simple_fill),
