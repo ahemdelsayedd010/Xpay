@@ -18,7 +18,9 @@ fun AmountText(
     color: Color = MaterialTheme.colorScheme.onBackground
 ) {
     if (isMasked){
-        Text("••••••••")
+        Text(
+            text = "••••••••",
+            fontSize = 32.sp)
     }else {
         val formattedText = formatCents(amountCents)
         Text(

@@ -33,11 +33,6 @@ import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.TextPrimary
 
 @Composable
-fun QuickAction(actions: List<Action>) {
-    QuickAction(actions = actions, modifier = Modifier, onActionClick = {})
-}
-
-@Composable
 fun QuickAction(
     actions: List<Action>,
     modifier: Modifier = Modifier,
@@ -149,12 +144,14 @@ fun ActionItems(
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = action.actionDetails,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color.Gray
-                )
+                action.actionDetails?.let {
+                    Text(
+                        text = it,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Gray
+                    )
+                }
             }
         }
     }
