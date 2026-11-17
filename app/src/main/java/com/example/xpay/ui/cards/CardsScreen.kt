@@ -33,14 +33,49 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.xpay.R
-import com.example.xpay.navigation.BottomMenu
-import com.example.xpay.navigation.BottomMenuContent
 import com.example.xpay.ui.components.Action
 import com.example.xpay.ui.components.AmountText
 import com.example.xpay.ui.components.Transaction
 import com.example.xpay.ui.components.TransationItemTile
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
+
+private val sampleCardActions = listOf(
+    Action("Freeze", R.drawable.ic_scan),
+    Action("Limits", R.drawable.ic_speedometer),
+    Action("Details", R.drawable.ic_info),
+    Action("Top up", R.drawable.ic_wallet)
+)
+
+private val sampleCardTransactions = listOf(
+    Transaction(
+        id = "1",
+        iconId = R.drawable.ph_send_money,
+        category = "Received",
+        title = "From Luke Kamaru",
+        amountCents = 50000L,
+        date = "Today, 1:00 PM",
+        isIncoming = true
+    ),
+    Transaction(
+        id = "2",
+        iconId = R.drawable.ph_pay_bills,
+        category = "Debit",
+        title = "To John Chris",
+        amountCents = 5000L,
+        date = "Today, 1:00 PM",
+        isIncoming = false
+    ),
+    Transaction(
+        id = "3",
+        iconId = R.drawable.ph_cards,
+        category = "Income",
+        title = "X Payout",
+        amountCents = 147500L,
+        date = "Today, 1:00 PM",
+        isIncoming = true
+    )
+)
 
 @Composable
 fun CardsScreen() {
@@ -49,70 +84,39 @@ fun CardsScreen() {
             .fillMaxSize()
             .background(LightBg)
     ) {
+        // Main Screen Layout
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
-                .padding(horizontal = 12.dp)
-                .verticalScroll(rememberScrollState())
         ) {
-
             TopSection()
+            Spacer(modifier = Modifier.height(4.dp))
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 12.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                // Dark Physical Card Widget
+                CardDetails()
 
-            // Dark Physical Card Widget
-            CardDetails()
+                Spacer(modifier = Modifier.height(18.dp))
 
-            Spacer(modifier = Modifier.height(18.dp))
+                // Quick Action Row
+                QuickActionSection(actions = sampleCardActions)
 
-            // Quick Action Row (Freeze, Limits, Details, Top up)
-            val sampleActions = listOf(
-                Action("Freeze", R.drawable.ic_scan),
-                Action("Limits", R.drawable.ic_speedometer),
-                Action("Details", R.drawable.ic_info),
-                Action("Top up", R.drawable.ic_wallet)
-            )
-            QuickActionSection(actions = sampleActions)
+                Spacer(modifier = Modifier.height(24.dp))
+                MonthlyLimitCard(totalSpent = 10500)
 
-            Spacer(modifier = Modifier.height(24.dp))
-            MonthlyLimitCard()
+                Spacer(modifier = Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(12.dp))
+                // Transaction History List
+                TransationItemTile(transactions = sampleCardTransactions)
 
-            // Transaction History List
-            val sampleTransactions = listOf(
-                Transaction(
-                    id = "1",
-                    iconId = R.drawable.ph_send_money,
-                    category = "Received",
-                    title = "From Luke Kamaru",
-                    amountCents = 50000L,
-                    date = "Today, 1:00 PM",
-                    isIncoming = true
-                ),
-                Transaction(
-                    id = "2",
-                    iconId = R.drawable.ph_pay_bills,
-                    category = "Debit",
-                    title = "To John Chris",
-                    amountCents = 5000L,
-                    date = "Today, 1:00 PM",
-                    isIncoming = false
-                ),
-                Transaction(
-                    id = "3",
-                    iconId = R.drawable.ph_cards,
-                    category = "Income",
-                    title = "X Payout",
-                    amountCents = 147500L,
-                    date = "Today, 1:00 PM",
-                    isIncoming = true
-                )
-            )
-            TransationItemTile(transactions = sampleTransactions)
-
-            Spacer(modifier = Modifier.height(100.dp)) // Extra space for floating bottom bar
+                Spacer(modifier = Modifier.height(100.dp)) // Extra space for floating bottom bar
+            }
         }
     }
 }
@@ -122,7 +126,7 @@ fun TopSection() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(horizontal = 24.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

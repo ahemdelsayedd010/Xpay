@@ -16,10 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,20 +24,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun BottomMenu(
     items: List<BottomMenuContent>,
+    navController: NavController,
     modifier: Modifier = Modifier,
-    activeHighlightColor: Color = Color(0xFFE8E8E8),
-    activeTextColor: Color = Color.Black,
-    inactiveTextColor: Color = Color(0xFF555555),
-    initialSelectedItemIndex: Int = 0,
-    onTabSelected: (Int) -> Unit = {}
+    onItemClick: (BottomMenuContent) -> Unit
 ) {
-    var selectedItemIndex by remember {
-        mutableStateOf(initialSelectedItemIndex)
-    }
+    val backStackEntry = navController.currentBackStackEntryAsState()
 
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
@@ -53,16 +47,13 @@ fun BottomMenu(
             .background(Color.White)
             .padding(vertical = 6.dp)
     ) {
-        items.forEachIndexed { index, item ->
+        items.forEach { item ->
+            val isSelected = item.route == backStackEntry.value?.destination?.route
             BottomMenuItem(
                 item = item,
-                isSelected = (index == selectedItemIndex),
-                activeHighlightColor = activeHighlightColor,
-                activeTextColor = activeTextColor,
-                inactiveTextColor = inactiveTextColor
+                isSelected = isSelected
             ) {
-                selectedItemIndex = index
-                onTabSelected(index)
+                onItemClick(item)
             }
         }
     }

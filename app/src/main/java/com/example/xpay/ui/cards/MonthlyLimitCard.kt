@@ -1,7 +1,5 @@
 package com.example.xpay.ui.cards
 
-import android.R
-import androidx.compose.animation.core.animate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,6 +20,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.text.NumberFormat
+import java.util.Locale
+
+fun formatDollarAmount(amount: Long): String {
+    val formatter = NumberFormat.getNumberInstance(Locale.US)
+    return "$" + formatter.format(amount)
+}
 
 @Composable
 fun MonthlyLimitCard(
@@ -29,6 +34,9 @@ fun MonthlyLimitCard(
     totalSpent: Long = 8545,
     monthlyLimit: Long = 15245
 ) {
+    val progress = (totalSpent.toFloat() / monthlyLimit.toFloat()).coerceIn(0f, 1f)
+    val percentRemaining = (100 - ((totalSpent.toFloat() / monthlyLimit.toFloat()) * 100)).toInt()
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -41,7 +49,6 @@ fun MonthlyLimitCard(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -54,7 +61,7 @@ fun MonthlyLimitCard(
                     color = Color.Black
                 )
                 Text(
-                    text = "$$totalSpent / $$monthlyLimit",
+                    text = "${formatDollarAmount(totalSpent)} / ${formatDollarAmount(monthlyLimit)}",
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     color = Color.Black
@@ -62,7 +69,6 @@ fun MonthlyLimitCard(
             }
             Spacer(modifier = Modifier.height(4.dp))
 
-            val progress = (totalSpent.toFloat() / monthlyLimit.toFloat()).coerceIn(0f, 1f)
             LinearProgressIndicator(
                 progress = { progress },
                 modifier = Modifier
@@ -79,9 +85,8 @@ fun MonthlyLimitCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val precentRemaining = 100 - ((totalSpent.toFloat() / monthlyLimit.toFloat()) * 100).toInt()
                 Text(
-                    text = "${precentRemaining}% of your monthly limit",
+                    text = "${percentRemaining}% of your monthly limit",
                     fontWeight = FontWeight.Normal,
                     fontSize = 12.sp,
                     color = Color.Gray
@@ -93,9 +98,6 @@ fun MonthlyLimitCard(
                     color = Color.LightGray
                 )
             }
-
-
         }
-
     }
 }

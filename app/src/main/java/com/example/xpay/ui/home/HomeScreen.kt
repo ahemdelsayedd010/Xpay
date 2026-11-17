@@ -7,20 +7,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.xpay.R
-import com.example.xpay.navigation.BottomMenu
-import com.example.xpay.navigation.BottomMenuContent
 import com.example.xpay.ui.components.Action
 import com.example.xpay.ui.components.QuickAction
 import com.example.xpay.ui.components.SavingsAccountCard
@@ -29,6 +25,43 @@ import com.example.xpay.ui.components.Transaction
 import com.example.xpay.ui.components.TransationItemTile
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
+
+private val sampleHomeActions = listOf(
+    Action("Send Money", R.drawable.ph_send_money, "Send money to recipient"),
+    Action("Airtime/Data", R.drawable.ph_airtime, "Recharge your mobile"),
+    Action("Pay Bills", R.drawable.ph_pay_bills, "Pay bills, electricity etc."),
+    Action("Cards", R.drawable.ph_cards, "You have 3 active cards")
+)
+
+private val sampleHomeTransactions = listOf(
+    Transaction(
+        id = "1",
+        iconId = R.drawable.ph_send_money,
+        category = "Received",
+        title = "From Luke Kamaru",
+        amountCents = 50000L,
+        date = "Today, 1:00 PM",
+        isIncoming = true
+    ),
+    Transaction(
+        id = "2",
+        iconId = R.drawable.ph_pay_bills,
+        category = "Debit",
+        title = "To John Chris",
+        amountCents = 5000L,
+        date = "Today, 1:00 PM",
+        isIncoming = false
+    ),
+    Transaction(
+        id = "3",
+        iconId = R.drawable.ph_cards,
+        category = "Income",
+        title = "X Payout",
+        amountCents = 147500L,
+        date = "Today, 1:00 PM",
+        isIncoming = true
+    )
+)
 
 @Composable
 fun HomeScreen() {
@@ -61,65 +94,16 @@ fun HomeScreen() {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 // Quick Actions Grid
-                val sampleActions = listOf(
-                    Action("Send Money", R.drawable.ph_send_money, "Send money to recipient"),
-                    Action("Airtime/Data", R.drawable.ph_airtime, "Recharge your mobile"),
-                    Action("Pay Bills", R.drawable.ph_pay_bills, "Pay bills, electricity etc."),
-                    Action("Cards", R.drawable.ph_cards, "You have 3 active cards")
-                )
-                QuickAction(actions = sampleActions, modifier = Modifier, onActionClick = {})
+                QuickAction(actions = sampleHomeActions, modifier = Modifier, onActionClick = {})
 
                 Spacer(modifier = Modifier.height(12.dp))
 
                 // Transaction History List
-                val sampleTransactions = listOf(
-                    Transaction(
-                        id = "1",
-                        iconId = R.drawable.ph_send_money,
-                        category = "Received",
-                        title = "From Luke Kamaru",
-                        amountCents = 50000L,
-                        date = "Today, 1:00 PM",
-                        isIncoming = true
-                    ),
-                    Transaction(
-                        id = "2",
-                        iconId = R.drawable.ph_pay_bills,
-                        category = "Debit",
-                        title = "To John Chris",
-                        amountCents = 5000L,
-                        date = "Today, 1:00 PM",
-                        isIncoming = false
-                    ),
-                    Transaction(
-                        id = "3",
-                        iconId = R.drawable.ph_cards,
-                        category = "Income",
-                        title = "X Payout",
-                        amountCents = 147500L,
-                        date = "Today, 1:00 PM",
-                        isIncoming = true
-                    )
-                )
-                TransationItemTile(transactions = sampleTransactions)
+                TransationItemTile(transactions = sampleHomeTransactions)
 
                 Spacer(modifier = Modifier.height(100.dp))
             }
         }
-
-        // Floating Bottom Navigation Bar
-        BottomMenu(
-            items = listOf(
-                BottomMenuContent("Home", R.drawable.ic_house_simple, R.drawable.ic_house_simple_fill),
-                BottomMenuContent("Cards", R.drawable.ic_cardholder, R.drawable.ic_cardholder_fill),
-                BottomMenuContent("Analytics", R.drawable.ic_chart_bar, R.drawable.ic_chart_bar_fill),
-                BottomMenuContent("Settings", R.drawable.ic_gear_six, R.drawable.ic_gear_six_fill),
-            ),
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .navigationBarsPadding()
-                .padding(bottom = 16.dp)
-        )
     }
 }
 
