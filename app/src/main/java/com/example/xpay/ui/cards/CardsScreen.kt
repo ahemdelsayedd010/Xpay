@@ -37,6 +37,7 @@ import com.example.xpay.navigation.BottomMenu
 import com.example.xpay.navigation.BottomMenuContent
 import com.example.xpay.ui.components.Action
 import com.example.xpay.ui.components.AmountText
+import com.example.xpay.ui.components.Transaction
 import com.example.xpay.ui.components.TransationItemTile
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
@@ -63,7 +64,7 @@ fun CardsScreen() {
             // Dark Physical Card Widget
             CardDetails()
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(18.dp))
 
             // Quick Action Row (Freeze, Limits, Details, Top up)
             val sampleActions = listOf(
@@ -73,6 +74,43 @@ fun CardsScreen() {
                 Action("Top up", R.drawable.ic_wallet)
             )
             QuickActionSection(actions = sampleActions)
+
+            Spacer(modifier = Modifier.height(24.dp))
+            MonthlyLimitCard()
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Transaction History List
+            val sampleTransactions = listOf(
+                Transaction(
+                    id = "1",
+                    iconId = R.drawable.ph_send_money,
+                    category = "Received",
+                    title = "From Luke Kamaru",
+                    amountCents = 50000L,
+                    date = "Today, 1:00 PM",
+                    isIncoming = true
+                ),
+                Transaction(
+                    id = "2",
+                    iconId = R.drawable.ph_pay_bills,
+                    category = "Debit",
+                    title = "To John Chris",
+                    amountCents = 5000L,
+                    date = "Today, 1:00 PM",
+                    isIncoming = false
+                ),
+                Transaction(
+                    id = "3",
+                    iconId = R.drawable.ph_cards,
+                    category = "Income",
+                    title = "X Payout",
+                    amountCents = 147500L,
+                    date = "Today, 1:00 PM",
+                    isIncoming = true
+                )
+            )
+            TransationItemTile(transactions = sampleTransactions)
 
             Spacer(modifier = Modifier.height(100.dp)) // Extra space for floating bottom bar
         }
