@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.xpay.R
+import com.example.xpay.ui.analytics.AnalyticsScreen
 import com.example.xpay.ui.cards.CardsScreen
 import com.example.xpay.ui.home.HomeScreen
 
@@ -29,7 +30,7 @@ fun Navigation(navController: NavHostController) {
                 CardsScreen()
             }
             composable("Analytics") {
-                // Implement later
+                AnalyticsScreen()
             }
             composable("Settings") {
                 // Implement later

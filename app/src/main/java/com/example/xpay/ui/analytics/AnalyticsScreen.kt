@@ -1,0 +1,160 @@
+package com.example.xpay.ui.analytics
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.xpay.R
+import com.example.xpay.navigation.BottomMenu
+import com.example.xpay.navigation.BottomMenuContent
+import com.example.xpay.ui.theme.LightBg
+import com.example.xpay.ui.theme.XpayTheme
+
+@Composable
+fun AnalyticsScreen() {
+    var selectedTimeframe by remember { mutableStateOf("Week") }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(LightBg)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+        ) {
+            AnalyticsTopSection(
+                selectedOption = selectedTimeframe,
+                onOptionSelected = { newOption ->
+                    selectedTimeframe = newOption
+                }
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            // Scrollable Content
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                // Spending Bar Chart Card (Dual Week/Month mode)
+                AnalyticsSpendingCard(selectedTimeframe = selectedTimeframe)
+
+                Spacer(modifier = Modifier.height(100.dp)) // Extra space for floating bottom bar
+            }
+        }
+    }
+}
+
+@Composable
+fun AnalyticsTopSection(
+    selectedOption: String = "Week",
+    onOptionSelected: (String) -> Unit = {}
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .clip(CircleShape)
+                .background(Color.White)
+                .clickable { /* back action */ },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_caret_left),
+                contentDescription = "back arrow",
+                tint = Color.Black,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+        Text(
+            text = "Analytics",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = Color.Black,
+        )
+        Box(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(Color.White),
+            contentAlignment = Alignment.Center
+        ) {
+            TimeframeSegmentedToggle(
+                selectedOption = selectedOption,
+                onOptionSelected = onOptionSelected
+            )
+        }
+    }
+}
+
+@Composable
+fun TimeframeSegmentedToggle(
+    selectedOption: String = "Week",
+    onOptionSelected: (String) -> Unit = {}
+) {
+    val options = listOf("Week", "Month")
+
+    Row(
+        modifier = Modifier
+            .clip(CircleShape)
+            .background(Color.White)
+            .padding(3.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        options.forEach { option ->
+            val isSelected = (option == selectedOption)
+            Box(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(if (isSelected) Color.Black else Color.Transparent)
+                    .clickable { onOptionSelected(option) }
+                    .padding(horizontal = 16.dp, vertical = 6.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = option,
+                    fontSize = 13.sp,
+                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                    color = if (isSelected) Color.White else Color(0xFF8E8E93)
+                )
+            }
+        }
+    }
+
+}

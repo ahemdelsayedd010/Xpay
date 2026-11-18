@@ -90,7 +90,7 @@ fun CardsScreen() {
                 .fillMaxSize()
                 .statusBarsPadding()
         ) {
-            TopSection()
+            CardTopSection()
             Spacer(modifier = Modifier.height(4.dp))
 
             Column(
@@ -122,7 +122,7 @@ fun CardsScreen() {
 }
 
 @Composable
-fun TopSection() {
+fun CardTopSection() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -201,7 +201,7 @@ fun CardDetails(
                     color = Color.LightGray
                 )
                 Icon(
-                    painter = painterResource(R.drawable.ic_eye),
+                    painter = painterResource(R.drawable.ic_eye_slash),
                     contentDescription = "Hide",
                     tint = Color.White,
                     modifier = Modifier.size(18.dp)
@@ -215,7 +215,7 @@ fun CardDetails(
                     fontSize = 12.sp,
                     color = Color.LightGray
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 AmountText(
                     modifier = Modifier,
                     amountCents = balanceCents,
