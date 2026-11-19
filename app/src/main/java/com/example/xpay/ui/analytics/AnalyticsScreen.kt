@@ -34,9 +34,38 @@ import androidx.compose.ui.unit.sp
 import com.example.xpay.R
 import com.example.xpay.navigation.BottomMenu
 import com.example.xpay.navigation.BottomMenuContent
+import com.example.xpay.ui.cards.MonthlyLimitCard
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
-
+private val sampleCategories = listOf(
+    CategoryExpense(
+        categoryName = "Food",
+        transactionCount = 5,
+        amountCents = 6291L, // $6,291.00
+        percentage = 74,
+        iconId = R.drawable.fork_knife,
+        iconBgColor = Color(0xFFFFF7E6),  // Soft warm amber background
+        iconTintColor = Color(0xFFD97706)  // Dark amber icon tint
+    ),
+    CategoryExpense(
+        categoryName = "Transfers",
+        transactionCount = 3,
+        amountCents = 1830L, // $1,830.00
+        percentage = 21,
+        iconId = R.drawable.ic_arrow_up_right,
+        iconBgColor = Color(0xFFE6F4EA),  // Soft green background
+        iconTintColor = Color(0xFF137333)  // Dark green icon tint
+    ),
+    CategoryExpense(
+        categoryName = "Subscriptions",
+        transactionCount = 3,
+        amountCents = 424L,  // $424.00
+        percentage = 5,
+        iconId = R.drawable.ic_arrows_left_right,
+        iconBgColor = Color(0xFFFCE8E6),  // Soft pink background
+        iconTintColor = Color(0xFFC5221F)  // Dark red icon tint
+    )
+)
 @Composable
 fun AnalyticsScreen() {
     var selectedTimeframe by remember { mutableStateOf("Week") }
@@ -69,6 +98,12 @@ fun AnalyticsScreen() {
             ) {
                 // Spending Bar Chart Card (Dual Week/Month mode)
                 AnalyticsSpendingCard(selectedTimeframe = selectedTimeframe)
+
+                Spacer(modifier = Modifier.height(24.dp))
+                MonthlyLimitCard()
+
+                Spacer(modifier = Modifier.height(12.dp))
+                TopCategoriesSection(sampleCategories)
 
                 Spacer(modifier = Modifier.height(100.dp)) // Extra space for floating bottom bar
             }

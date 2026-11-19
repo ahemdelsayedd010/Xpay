@@ -127,7 +127,7 @@ fun AnalyticsSpendingCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // 1. Vertical Capsule Bars Row
+            // Vertical Capsule Bars Row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -154,7 +154,7 @@ fun AnalyticsSpendingCard(
                     }
                 }
             }
-            // 2. Horizontal Bottom Baseline
+            // Horizontal Bottom Baseline
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -162,7 +162,7 @@ fun AnalyticsSpendingCard(
                     .background(Color(0xFFE5E7EB))
             )
 
-            // 3. Day / Week Labels Row
+            // Day / Week Labels Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
