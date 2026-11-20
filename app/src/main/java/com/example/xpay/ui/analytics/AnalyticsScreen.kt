@@ -29,14 +29,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.xpay.R
-import com.example.xpay.navigation.BottomMenu
-import com.example.xpay.navigation.BottomMenuContent
 import com.example.xpay.ui.cards.MonthlyLimitCard
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
+
 private val sampleCategories = listOf(
     CategoryExpense(
         categoryName = "Food",
@@ -66,9 +66,11 @@ private val sampleCategories = listOf(
         iconTintColor = Color(0xFFC5221F)  // Dark red icon tint
     )
 )
+
 @Composable
 fun AnalyticsScreen() {
     var selectedTimeframe by remember { mutableStateOf("Week") }
+    var showSimulateSheet by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -93,7 +95,7 @@ fun AnalyticsScreen() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp)
+                    .padding(horizontal = 12.dp)
                     .verticalScroll(rememberScrollState())
             ) {
                 // Spending Bar Chart Card (Dual Week/Month mode)
@@ -103,10 +105,24 @@ fun AnalyticsScreen() {
                 MonthlyLimitCard()
 
                 Spacer(modifier = Modifier.height(12.dp))
-                TopCategoriesSection(sampleCategories)
+                TopCategoriesSection(
+                    categoriesExpense = sampleCategories,
+                    onSimulateClick = { showSimulateSheet = true }
+                )
 
                 Spacer(modifier = Modifier.height(100.dp)) // Extra space for floating bottom bar
             }
+        }
+
+        // Modal Bottom Sheet Dialog for Expense Simulation
+        if (showSimulateSheet) {
+            SimulateExpenseSheet(
+                onDismiss = { showSimulateSheet = false },
+                onAddExpense = { merchant, amountCents, category ->
+                    // Expense simulation callback
+                    showSimulateSheet = false
+                }
+            )
         }
     }
 }
@@ -191,5 +207,12 @@ fun TimeframeSegmentedToggle(
             }
         }
     }
+}
 
+@Preview(showBackground = true)
+@Composable
+fun AnalyticsScreenPreview() {
+    XpayTheme {
+        AnalyticsScreen()
+    }
 }

@@ -52,11 +52,12 @@ fun TopCategoriesSection(
                 color = Color.Gray
             )
             Text(
-                text = "Simulate Expense",
+                text = "+ Simulate Expense",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
-                modifier = Modifier.clickable { onSimulateClick() }
+                modifier = Modifier
+                    .clickable { onSimulateClick() }
             )
         }
 
@@ -134,7 +135,7 @@ fun TopCategoriesItems(
             // Amount & Category Tag on Right
             Column(horizontalAlignment = Alignment.End) {
                 Text(
-                    text = " ${formatDollarAmount(categoryExpense.amountCents)}",
+                    text = " ${formatDollarAmount(categoryExpense.amountCents)}.00",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
