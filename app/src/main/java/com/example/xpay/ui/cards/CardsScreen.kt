@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.example.xpay.R
 import com.example.xpay.ui.components.Action
 import com.example.xpay.ui.components.AmountText
-import com.example.xpay.data.local.entity.Transaction
+import com.example.xpay.ui.components.Transaction
 import com.example.xpay.ui.components.TransationItemTile
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme

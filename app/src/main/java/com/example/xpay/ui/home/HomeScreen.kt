@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -20,7 +21,7 @@ import com.example.xpay.ui.components.Action
 import com.example.xpay.ui.components.QuickAction
 import com.example.xpay.ui.components.SavingsAccountCard
 import com.example.xpay.ui.components.TopBar
-import com.example.xpay.data.local.entity.Transaction
+import com.example.xpay.ui.components.Transaction
 import com.example.xpay.ui.components.TransationItemTile
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
