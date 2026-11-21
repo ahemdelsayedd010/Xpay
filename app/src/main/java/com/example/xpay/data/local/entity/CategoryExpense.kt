@@ -1,4 +1,4 @@
-package com.example.xpay.ui.analytics
+package com.example.xpay.data.local.entity
 
 import androidx.compose.ui.graphics.Color
 

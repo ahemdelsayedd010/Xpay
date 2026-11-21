@@ -1,4 +1,4 @@
-package com.example.xpay.ui.components
+package com.example.xpay.data.local.entity
 
 import androidx.annotation.DrawableRes
 

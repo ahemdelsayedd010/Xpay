@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.xpay.R
+import com.example.xpay.data.local.entity.CategoryExpense
 import com.example.xpay.ui.cards.MonthlyLimitCard
 import com.example.xpay.ui.theme.LightBg
 import com.example.xpay.ui.theme.XpayTheme
