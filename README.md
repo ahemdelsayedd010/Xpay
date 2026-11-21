@@ -6,17 +6,23 @@ A pixel-perfect, modern Android mobile banking application built with **Jetpack 
 
 ```text
 com.example.xpay
+├── XpayApp.kt                  NEW: Application class, creates the database and repository
 ├── data
-│   ├── local        # Room Database, Entities (Account, Card, Transaction) & DAOs
-│   ├── preferences  # DataStore User Preferences Repository
-│   └── repository   # Single Source of Truth Repository
-├── navigation       # Navigation Graph & Custom Floating Bottom Navigation Bar
+│   ├── model                   NEW: enums Category, TransactionType, TransactionStatus
+│   ├── local
+│   │   ├── entity              NEW: AccountEntity, CardEntity, TransactionEntity
+│   │   ├── dao                 NEW: AccountDao, CardDao, TransactionDao
+│   │   ├── query               NEW: CategoryTotal, DayTotal (query result classes)
+│   │   ├── XpayDatabase.kt     NEW
+│   │   └── DatabaseSeeder.kt   NEW: fake data on first launch
+│   ├── mapper                  NEW: Entity → your existing UI models
+│   ├── repository              NEW: XpayRepository (the single source of truth)
+│   ├── preferences             DataStore (settings later)
+│   └── SpendBarItem.kt         (existing)
 ├── ui
-│   ├── theme        # Color Palette, Typography & Material3 Theme
-│   ├── components   # Reusable UI (AppCard, AmountText, QuickActionTile, TopBar, TransactionItemTile)
-│   ├── home         # Home Screen & HomeViewModel
-│   ├── cards        # Cards Screen & CardsViewModel
-│   ├── analytics    # Analytics Tab & Canvas Charts
-│   └── settings     # Settings & Dark Mode Preferences
-└── MainActivity.kt  # Single Activity Entry Point
+│   ├── home        HomeScreen.kt + HomeViewModel.kt          (ViewModel is new)
+│   ├── cards       CardsScreen.kt + CardsViewModel.kt        (ViewModel is new)
+│   ├── analytics   AnalyticsScreen.kt + AnalyticsViewModel.kt (ViewModel is new)
+│   └── components, theme   (unchanged)
+└── navigation                  (unchanged)
 ```
