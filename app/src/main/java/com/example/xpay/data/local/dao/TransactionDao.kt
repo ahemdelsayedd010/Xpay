@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TransactionDao {
 
-    // ---- your existing functions (keep them) ----
     @Query("SELECT * FROM transactions ORDER BY timestamp DESC")
     fun getAllTransactionsFlow(): Flow<List<TransactionEntity>>
 
@@ -25,7 +24,6 @@ interface TransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllTransactions(transactions: List<TransactionEntity>)
 
-    // ---- NEW ----
     @Query("""
         SELECT category, COUNT(*) AS transactionCount, SUM(amountCents) AS totalCents
         FROM transactions
