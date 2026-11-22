@@ -22,7 +22,7 @@ import com.example.xpay.data.local.entities.UserAccountEntity
         PendingOperationEntity::class
     ],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 
 abstract class AppDatabase : RoomDatabase() {

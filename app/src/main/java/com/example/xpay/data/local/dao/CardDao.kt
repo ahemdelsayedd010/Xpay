@@ -15,7 +15,7 @@ interface CardDao {
     @Query("UPDATE cards SET isFrozen = :isFrozen WHERE id = :cardId")
     suspend fun updateCardFreezeStatus(cardId: String, isFrozen: Boolean)
 
-    @Query("UPDATE cards SET monthlyLimit = :limitCents WHERE id = :cardId")
+    @Query("UPDATE cards SET monthlyLimitCents = :limitCents WHERE id = :cardId")
     suspend fun updateMonthlyLimit(cardId: String, limitCents: Long)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -2,6 +2,7 @@ package com.example.xpay.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.UUID
 
@@ -14,7 +15,7 @@ import java.util.UUID
             childColumns = ["accountId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],indices = [Index("accountId")]
 )
 data class NotificationEntity(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
