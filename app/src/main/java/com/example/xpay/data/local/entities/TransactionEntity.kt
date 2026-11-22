@@ -4,6 +4,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.example.xpay.data.model.Category
+import com.example.xpay.data.model.TransactionStatus
+import com.example.xpay.data.model.TransactionType
 import java.util.UUID
 
 @Entity(
@@ -31,10 +34,10 @@ data class TransactionEntity(
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
     val accountId: String,
     val cardId: String? = null,
-    val category: String,
-    val type: String,
+    val category: Category,
+    val type: TransactionType,
     val amountCents: Long,
-    val status: String,
+    val status: TransactionStatus,
     val merchant: String,
     val timestamp: Long = System.currentTimeMillis()
 )
