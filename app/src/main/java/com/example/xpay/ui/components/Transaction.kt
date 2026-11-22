@@ -5,7 +5,7 @@ import androidx.annotation.DrawableRes
 data class Transaction(
     val id: String,
     @DrawableRes val iconId: Int,
-    val category: String = "Received",
+    val category: String,
     val title: String,
     val amountCents: Long,
     val date: String,
