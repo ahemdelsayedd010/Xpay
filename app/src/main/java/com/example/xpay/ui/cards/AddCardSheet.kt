@@ -63,15 +63,6 @@ import com.example.xpay.ui.theme.*
 import com.example.xpay.ui.theme.XpayTheme
 import kotlinx.coroutines.launch
 
-
-data class NewCardInput(
-    val brandId: String,      // matches CardEntity.brand, e.g. "MASTERCARD"
-    val holderName: String,
-    val last4: String,
-    val expiryMonth: Int,     // 1..12
-    val expiryYear: Int       // 4 digits, e.g. 2029
-)
-
 data class CardBrandOption(
     val id: String,
     val name: String,
@@ -79,9 +70,9 @@ data class CardBrandOption(
 )
 
 private val cardBrandOptions = listOf(
-    CardBrandOption("MASTERCARD", "Mastercard", R.drawable.ic_mastercard2_foreground),
-    CardBrandOption("VISA", "Visa", R.drawable.ic_visa_foreground),     // TODO: add the real Visa logo
-    CardBrandOption("PAYPAL", "PayPal", R.drawable.ic_paypal_foreground), // TODO: add the real PayPal logo
+    CardBrandOption("MASTERCARD", "Mastercard", R.drawable.ic_mastercard3_foreground),
+    CardBrandOption("VISA", "Visa", R.drawable.ic_visa2_foreground),
+    CardBrandOption("PAYPAL", "PayPal", R.drawable.ic_paypal_foreground),
     CardBrandOption("OTHER", "Other", R.drawable.ic_plus)
 )
 
@@ -89,7 +80,7 @@ private val cardBrandOptions = listOf(
 @Composable
 fun AddCardSheet(
     onDismiss: () -> Unit = {},
-    onAddNewCard: (NewCardInput) -> Unit = {}
+    onAddNewCard: (Card) -> Unit = {}
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
@@ -101,13 +92,11 @@ fun AddCardSheet(
         }
     }
 
-    // Form state. The number and CVV use plain `remember`, so sensitive data
-    // is never written to the saved-instance bundle.
     var brandId by rememberSaveable { mutableStateOf(cardBrandOptions.first().id) }
     var holder by rememberSaveable { mutableStateOf("") }
-    var number by remember { mutableStateOf("") }   // digits only
-    var expiry by remember { mutableStateOf("") }   // "MMYY", digits only
-    var cvv by remember { mutableStateOf("") }      // digits only
+    var number by remember { mutableStateOf("") }
+    var expiry by remember { mutableStateOf("") }
+    var cvv by remember { mutableStateOf("") }
 
     val holderError = CardValidator.holderError(holder)
     val numberError = CardValidator.cardNumberError(number)
@@ -137,7 +126,7 @@ fun AddCardSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState()) // fields stay reachable when the keyboard is open
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 24.dp)
         ) {
@@ -238,13 +227,17 @@ fun AddCardSheet(
             Button(
                 onClick = {
                     parsedExpiry?.let { (month, year) ->
+                        val brandRes = cardBrandOptions.find { it.id == brandId }?.iconResId ?: R.drawable.ic_mastercard3_foreground
                         onAddNewCard(
-                            NewCardInput(
-                                brandId = brandId,
-                                holderName = holder.trim(),
-                                last4 = number.takeLast(4),
+                            Card(
+                                brandId = brandRes,
+                                holderName = holder,
+                                cardNumber = number,
+                                availableBalance = 0L,
                                 expiryMonth = month,
-                                expiryYear = year
+                                expiryYear = year,
+                                cardType = "Virtual Card",
+                                cardBg = Color(0xFF0F0F11)
                             )
                         )
                         closeSheet()
@@ -357,7 +350,6 @@ fun CardInputField(
             placeholder = {
                 Text(text = placeholder, color = PlaceholderColor, fontSize = 14.sp)
             },
-            // Always present, so the layout does not jump when an error appears.
             supportingText = {
                 Text(text = visibleError.orEmpty(), fontSize = 11.sp)
             },
@@ -409,10 +401,6 @@ fun CardBrand(
         )
     }
 }
-
-// ---------------------------------------------------------------------------
-// Input helpers
-// ---------------------------------------------------------------------------
 
 private fun String.digitsOnly(maxLength: Int): String = filter(Char::isDigit).take(maxLength)
 

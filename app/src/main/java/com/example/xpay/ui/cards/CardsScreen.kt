@@ -22,20 +22,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.example.xpay.R
 import com.example.xpay.ui.components.Action
 import com.example.xpay.ui.components.AmountText
@@ -81,16 +81,49 @@ private val sampleCardTransactions = listOf(
     )
 )
 
+private val sampleCards = listOf(
+    Card(
+        brandId = R.drawable.ic_mastercard3_foreground,
+        holderName = "Arthur Taylor",
+        cardNumber = "0000 0000 0000 5897",
+        availableBalance = 1524500L,
+        expiryMonth = 5,
+        expiryYear = 2029,
+        cardType = "Physical Card",
+        cardBg = Color(0xFF0F0F11)
+    ),
+    Card(
+        brandId = R.drawable.ic_visa2_foreground,
+        holderName = "Arthur Taylor",
+        cardNumber = "•••• •••• •••• 3412",
+        availableBalance = 840000L,
+        expiryMonth = 11,
+        expiryYear = 2028,
+        cardType = "Virtual Card",
+        cardBg = Color(0xFF71717A)
+    ),
+    Card(
+        brandId = R.drawable.ic_paypal_foreground,
+        holderName = "Arthur Taylor",
+        cardNumber = "•••• •••• •••• 9012",
+        availableBalance = 320000L,
+        expiryMonth = 8,
+        expiryYear = 2030,
+        cardType = "Virtual Card",
+        cardBg = Color(0xFFEA580C)
+    )
+)
+
 @Composable
 fun CardsScreen() {
     var showAddCardSheet by remember { mutableStateOf(false) }
+    var cardsList by remember { mutableStateOf(sampleCards) }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(LightBg)
     ) {
-        // Main Screen Layout
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -105,8 +138,8 @@ fun CardsScreen() {
                     .padding(horizontal = 12.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                // Dark Physical Card Widget
-                CardDetails()
+                // Stacked Cards Deck
+                StackCards(cards = cardsList)
 
                 Spacer(modifier = Modifier.height(18.dp))
 
@@ -124,15 +157,15 @@ fun CardsScreen() {
                     title = "Expenditures"
                 )
 
-                Spacer(modifier = Modifier.height(100.dp)) // Extra space for floating bottom bar
+                Spacer(modifier = Modifier.height(100.dp))
             }
         }
 
         if (showAddCardSheet) {
             AddCardSheet(
                 onDismiss = { showAddCardSheet = false },
-                onAddNewCard = { newCardInput ->
-                    // TODO: Pass newCardInput to ViewModel / Repository to save card
+                onAddNewCard = { newCard ->
+                    cardsList = listOf(newCard) + cardsList
                     showAddCardSheet = false
                 }
             )
@@ -191,19 +224,62 @@ fun CardTopSection(
 }
 
 @Composable
-fun CardDetails(
-    cardHolder: String = "Ahmed Elsayed",
-    cardNumber: String = "•••• •••• •••• 5897",
-    balanceCents: Long = 1524500L,
-    cardExpires: String = "05/2029",
-    cardType: Painter = painterResource(R.drawable.ic_mastercard)
+fun StackCards(
+    cards: List<Card>,
+    modifier: Modifier = Modifier,
+    onCardSelected: (Card) -> Unit = {}
 ) {
+    var activeIndex by remember { mutableIntStateOf(0) }
+
+    if (cards.isEmpty()) return
+
+    val displayCount = cards.size.coerceAtMost(3)
+
     Box(
-        modifier = Modifier
+        modifier = modifier
+            .fillMaxWidth()
+            .height(234.dp),
+        contentAlignment = Alignment.TopCenter
+    ) {
+        // Draw back to front: depth (displayCount - 1) down to 0
+        for (depth in (displayCount - 1) downTo 0) {
+            val cardIndex = (activeIndex + depth) % cards.size
+            val card = cards[cardIndex]
+
+            val topOffset = ((displayCount - 1 - depth) * 14).dp
+            val sideMargin = (depth * 10).dp
+
+            CardDetails(
+                card = card,
+                modifier = Modifier
+                    .padding(top = topOffset, start = sideMargin, end = sideMargin),
+                onClick = {
+                    activeIndex = cardIndex
+                    onCardSelected(card)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun CardDetails(
+    card: Card,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    var isMasked by remember { mutableStateOf(true) }
+
+    val last4 = remember(card.cardNumber) { card.cardNumber.takeLast(4) }
+    val displayCardNumber = if (isMasked) "•••• •••• •••• $last4" else card.cardNumber
+
+    Box(
+        modifier = modifier
             .height(210.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(Color.Black)
+            .background(card.cardBg ?: Color.Black)
+            .clickable { onClick() }
             .padding(20.dp)
     ) {
         Column(
@@ -216,16 +292,19 @@ fun CardDetails(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Physical Card",
+                    text = card.cardType,
                     fontWeight = FontWeight.Normal,
                     fontSize = 14.sp,
                     color = Color.LightGray
                 )
                 Icon(
-                    painter = painterResource(R.drawable.ic_eye_slash),
-                    contentDescription = "Hide",
+                    painter = painterResource(if (isMasked) R.drawable.ic_eye_slash else R.drawable.ic_eye),
+                    contentDescription = if (isMasked) "Show Card Number" else "Hide Card Number",
                     tint = Color.White,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clip(CircleShape)
+                        .clickable { isMasked = !isMasked }
                 )
             }
 
@@ -239,13 +318,13 @@ fun CardDetails(
                 Spacer(modifier = Modifier.height(2.dp))
                 AmountText(
                     modifier = Modifier,
-                    amountCents = balanceCents,
+                    amountCents = card.availableBalance,
                     fontSize = 28.sp,
                     color = Color.White
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = cardNumber,
+                    text = displayCardNumber,
                     fontWeight = FontWeight.Normal,
                     fontSize = 14.sp,
                     color = Color.LightGray
@@ -266,14 +345,14 @@ fun CardDetails(
                         fontWeight = FontWeight.Normal
                     )
                     Text(
-                        text = cardHolder,
+                        text = card.holderName,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 14.sp,
                         color = Color.White
                     )
                 }
 
-                Column {
+                Column(horizontalAlignment = Alignment.End) {
                     Text(
                         text = "Expires",
                         color = Color.LightGray,
@@ -281,7 +360,7 @@ fun CardDetails(
                         fontWeight = FontWeight.Normal
                     )
                     Text(
-                        text = cardExpires,
+                        text = "${"%02d".format(card.expiryMonth)}/${card.expiryYear}",
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 14.sp,
                         color = Color.White
@@ -289,8 +368,8 @@ fun CardDetails(
                 }
 
                 Icon(
-                    painter = cardType,
-                    contentDescription = "card type",
+                    painter = painterResource(card.brandId),
+                    contentDescription = "card brand",
                     tint = Color.Unspecified,
                     modifier = Modifier.size(44.dp)
                 )
@@ -330,7 +409,7 @@ fun CardActionItems(
 ) {
     Box(
         modifier = modifier
-            .aspectRatio(1f) // Equal square shape
+            .aspectRatio(1f)
             .clip(RoundedCornerShape(20.dp))
             .background(Color.White)
             .clickable { onClick() },

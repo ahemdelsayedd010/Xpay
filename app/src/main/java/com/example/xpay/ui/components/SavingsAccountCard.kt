@@ -74,7 +74,7 @@ fun SavingsAccountCard(
             AmountText(modifier = modifier,
                 amountCents = balanceCents,
                 isMasked = isMasked,
-                fontSize = 34.sp)
+                fontSize = 36.sp)
 
             Spacer(modifier = Modifier.width(16.dp))
 
