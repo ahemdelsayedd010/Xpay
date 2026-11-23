@@ -131,7 +131,8 @@ fun CardsScreen() {
         if (showAddCardSheet) {
             AddCardSheet(
                 onDismiss = { showAddCardSheet = false },
-                onAddNewCard = { _, _, _, _ ->
+                onAddNewCard = { newCardInput ->
+                    // TODO: Pass newCardInput to ViewModel / Repository to save card
                     showAddCardSheet = false
                 }
             )

@@ -24,3 +24,11 @@ val TextMuted = Color(0xFF9CA3AF)
 
 val BorderLight = Color(0xFFE5E7EB)
 val BottomBarBg = Color(0xFFF0F1F5)
+
+
+val SheetBackground = Color(0xFFF5F5F7)
+val FieldBorder = Color(0xFFE5E7EB)
+val FieldBorderFocused = Color(0xFFD1D5DB)
+val LabelColor = Color(0xFF6B7280)
+val PlaceholderColor = Color(0xFF9CA3AF)
+val PrimaryButton = Color(0xFF111827)
