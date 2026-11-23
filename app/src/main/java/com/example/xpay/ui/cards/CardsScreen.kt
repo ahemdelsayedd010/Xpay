@@ -32,6 +32,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.example.xpay.R
 import com.example.xpay.ui.components.Action
 import com.example.xpay.ui.components.AmountText
@@ -79,6 +83,8 @@ private val sampleCardTransactions = listOf(
 
 @Composable
 fun CardsScreen() {
+    var showAddCardSheet by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -90,7 +96,7 @@ fun CardsScreen() {
                 .fillMaxSize()
                 .statusBarsPadding()
         ) {
-            CardTopSection()
+            CardTopSection(onAddCardClick = { showAddCardSheet = true })
             Spacer(modifier = Modifier.height(4.dp))
 
             Column(
@@ -112,17 +118,31 @@ fun CardsScreen() {
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Transaction History List
-                TransationItemTile(transactions = sampleCardTransactions)
+                // Expenditure History List
+                TransationItemTile(
+                    transactions = sampleCardTransactions.filter { !it.isIncoming },
+                    title = "Expenditures"
+                )
 
                 Spacer(modifier = Modifier.height(100.dp)) // Extra space for floating bottom bar
             }
+        }
+
+        if (showAddCardSheet) {
+            AddCardSheet(
+                onDismiss = { showAddCardSheet = false },
+                onAddNewCard = { _, _, _, _ ->
+                    showAddCardSheet = false
+                }
+            )
         }
     }
 }
 
 @Composable
-fun CardTopSection() {
+fun CardTopSection(
+    onAddCardClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -156,7 +176,7 @@ fun CardTopSection() {
                 .size(36.dp)
                 .clip(CircleShape)
                 .background(Color.White)
-                .clickable { /* add card action */ },
+                .clickable { onAddCardClick() },
             contentAlignment = Alignment.Center
         ) {
             Icon(

@@ -38,6 +38,7 @@ import com.example.xpay.ui.theme.IncomeGreenBg
 fun TransationItemTile(
     transactions: List<Transaction>,
     modifier: Modifier = Modifier,
+    title: String = "Transaction History",
     maxItemsToShow: Int = 3,
     onSeeAllClick: () -> Unit = {}
 ) {
@@ -50,7 +51,7 @@ fun TransationItemTile(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Transaction History",
+                text = title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.Gray
@@ -144,10 +145,10 @@ fun TransactionItems(
                 val prefix = if (transaction.isIncoming) "+" else "-"
                 val amountColor = if (transaction.isIncoming) IncomeGreen else DebitRed
 
-                Text(
-                    text = "$prefix${formatCents(transaction.amountCents)}",
+                AmountText(
+                    amountCents = transaction.amountCents,
+                    prefix = prefix,
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
                     color = amountColor
                 )
                 Spacer(modifier = Modifier.height(2.dp))
