@@ -17,6 +17,7 @@ import com.example.xpay.R
 import com.example.xpay.ui.analytics.AnalyticsScreen
 import com.example.xpay.ui.cards.CardsScreen
 import com.example.xpay.ui.home.HomeScreen
+import com.example.xpay.ui.settings.SettingsScreen
 
 @Composable
 fun Navigation(navController: NavHostController) {
@@ -39,7 +40,7 @@ fun Navigation(navController: NavHostController) {
                 AnalyticsScreen()
             }
             composable("Settings") {
-                // Implement later
+                SettingsScreen()
             }
         }
 

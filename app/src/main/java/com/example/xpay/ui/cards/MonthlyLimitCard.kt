@@ -73,7 +73,7 @@ fun MonthlyLimitCard(
                 progress = { progress },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(24.dp)
+                    .height(16.dp)
                     .clip(RoundedCornerShape(5.dp)),
                 color = Color.Black,
                 trackColor = Color(0xFFF0F1F5)

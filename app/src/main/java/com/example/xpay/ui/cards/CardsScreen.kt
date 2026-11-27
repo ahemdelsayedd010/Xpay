@@ -352,7 +352,7 @@ fun CardDetails(
                     )
                 }
 
-                Column(horizontalAlignment = Alignment.End) {
+                Column {
                     Text(
                         text = "Expires",
                         color = Color.LightGray,
